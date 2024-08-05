@@ -1,0 +1,59 @@
+{
+	pkgs,
+	version ? "4.3-rc2",
+}: let
+			name = "godot";
+      godot-stable = pkgs.fetchurl {
+        url = "https://github.com/godotengine/godot-builds/releases/download/${version}/Godot_v${version}_linux.x86_64.zip";
+        hash = "sha256-gZjHvouEBUkaGLEFNyIhin9AA2UCaBWULiKgoTxarCY=";
+      };
+
+      buildInputs = with pkgs; [
+        alsa-lib
+        dbus
+        fontconfig
+        libGL
+        libpulseaudio
+        libxkbcommon
+        makeWrapper
+        mesa
+        patchelf
+        speechd
+        udev
+        vulkan-loader
+        xorg.libX11
+        xorg.libXcursor
+        xorg.libXext
+        xorg.libXfixes
+        xorg.libXi
+        xorg.libXinerama
+        xorg.libXrandr
+        xorg.libXrender
+      ];
+in
+
+pkgs.mkShell {
+	name = name;
+	pname = name;
+
+	src = godot-stable;
+	nativeBuildInputs = with pkgs; [unzip autoPatchelfHook];
+	buildInputs = buildInputs;
+
+	dontAutoPatchelf = false;
+
+	unpackPhase = ''
+		mkdir source
+		unzip $src -d source
+	'';
+
+	installPhase = ''
+		mkdir -p $out/bin
+		cp source/Godot_v${version}_linux.x86_64 $out/bin/godot
+	'';
+
+	shellHook = ''exec zsh'';
+	runScript = ''godot -e project.godot'';
+
+}
+	
