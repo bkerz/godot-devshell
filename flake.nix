@@ -25,5 +25,14 @@
         devShell = { pkgs, version, ... }: 
           import ./shell.nix { inherit pkgs version; };
       };
+      devShells = nixpkgs.lib.genAttrs systems (system:
+        let
+          pkgs = import nixpkgs { inherit system; };
+	  version = "4.3-rc1";
+        in
+        {
+          default = import ./shell.nix { inherit pkgs version;};
+        }
+      );
     };
 }
