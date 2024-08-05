@@ -9,7 +9,7 @@
     in
     {
       lib = {
-        devShell = { pkgs, version, hash... }: 
+        devShell = { pkgs, version, hash, ... }: 
           import ./shell.nix { inherit pkgs version hash; };
       };
       devShells = nixpkgs.lib.genAttrs systems (system:
