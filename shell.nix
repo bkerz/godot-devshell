@@ -1,7 +1,7 @@
 {
 	pkgs,
 	version ? "4.3-rc2",
-	hash ? "".
+	hash ? "",
 }: let
 			name = "godot";
       godot-stable = pkgs.fetchurl {
