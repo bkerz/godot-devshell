@@ -1,11 +1,12 @@
 {
 	pkgs,
 	version ? "4.3-rc2",
+	hash ? "".
 }: let
 			name = "godot";
       godot-stable = pkgs.fetchurl {
         url = "https://github.com/godotengine/godot-builds/releases/download/${version}/Godot_v${version}_linux.x86_64.zip";
-        hash = "sha256-gZjHvouEBUkaGLEFNyIhin9AA2UCaBWULiKgoTxarCY=";
+        hash = hash;
       };
 
       buildInputs = with pkgs; [
