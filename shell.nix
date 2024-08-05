@@ -30,30 +30,39 @@
         xorg.libXrandr
         xorg.libXrender
       ];
+
+		 godot-unwrapped = pkgs.stdenv.mkDerivation {
+				name = name;
+				pname = name;
+
+				src = godot-stable;
+				nativeBuildInputs = with pkgs; [unzip autoPatchelfHook];
+				buildInputs = buildInputs;
+
+				dontAutoPatchelf = false;
+
+				unpackPhase = ''
+					mkdir source
+					unzip $src -d source
+				'';
+
+				installPhase = ''
+					mkdir -p $out/bin
+					cp source/Godot_v${version}_linux.x86_64 $out/bin/godot
+				'';
+		 };
+
+			godot-bin = pkgs.buildFHSUserEnv {
+        name = "godot";
+        targetPkgs = pkgs: buildInputs ++ [godot-unwrapped];
+        runScript = "godot";
+      };
 in
 
+
 pkgs.mkShell {
-	name = name;
-	pname = name;
-
-	src = godot-stable;
-	nativeBuildInputs = with pkgs; [unzip autoPatchelfHook];
-	buildInputs = buildInputs;
-
-	dontAutoPatchelf = false;
-
-	unpackPhase = ''
-		mkdir source
-		unzip $src -d source
-	'';
-
-	installPhase = ''
-		mkdir -p $out/bin
-		cp source/Godot_v${version}_linux.x86_64 $out/bin/godot
-	'';
-
+	buildInputs = [godot-bin];
 	shellHook = ''exec zsh'';
 	runScript = ''godot -e project.godot'';
-
 }
 	
