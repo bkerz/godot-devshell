@@ -3,36 +3,23 @@
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-  # outputs = {
-  #   self,
-  #   nixpkgs,
-  #   flake-utils,
-  # }:
-  #   flake-utils.lib.eachDefaultSystem (system: let
-  #     pkgs = nixpkgs.legacyPackages.${system};
-  #     version = "4.3-rc1";
-  # 	godot-shell = import ./godot-shell.nix {inherit pkgs version;};
-  #   in {
-  #     devShell = godot-shell;
-  #   });
-
-	  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs }:
     let
       systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" ];
     in
     {
       lib = {
-        devShell = { pkgs, version, ... }: 
-          import ./shell.nix { inherit pkgs version; };
+        devShell = { pkgs, version, hash, ... }: 
+          import ./shell.nix { inherit pkgs version hash; };
       };
-
       devShells = nixpkgs.lib.genAttrs systems (system:
         let
           pkgs = import nixpkgs { inherit system; };
-					version = "4.3-rc2";
+	  version = "4.3-rc1";
+	  hash = "sha256-gZjHvouEBUkaGLEFNyIhin9AA2UCaBWULiKgoTxarCY=";
         in
         {
-          default = import ./shell.nix { inherit pkgs version; };
+          default = import ./shell.nix { inherit pkgs version hash;};
         }
       );
     };

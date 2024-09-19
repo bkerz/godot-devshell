@@ -2,6 +2,7 @@
 	pkgs,
 	version ? "4.3-rc2",
 	isStable ? true,
+	hash ? "",
 }: let
 			name = "godot";
 			stableVersion = "4.3-stable";
@@ -10,7 +11,7 @@
 			
       godot-stable = pkgs.fetchurl {
         url = if isStable then stableUrl else unstableUrl;
-        hash = "sha256-gZjHvouEBUkaGLEFNyIhin9AA2UCaBWULiKgoTxarCY=";
+        hash = if hash then hash else "sha256-gZjHvouEBUkaGLEFNyIhin9AA2UCaBWULiKgoTxarCY=";
       };
 
       buildInputs = with pkgs; [
