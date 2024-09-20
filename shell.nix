@@ -11,7 +11,7 @@
 			
       godot-stable = pkgs.fetchurl {
         url = if isStable then stableUrl else unstableUrl;
-        hash = if hash then hash else "sha256-gZjHvouEBUkaGLEFNyIhin9AA2UCaBWULiKgoTxarCY=";
+        hash = if builtins.isString hash && hash != "" then hash else "sha256-gZjHvouEBUkaGLEFNyIhin9AA2UCaBWULiKgoTxarCY=";
       };
 
       buildInputs = with pkgs; [
