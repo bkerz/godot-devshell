@@ -1,14 +1,13 @@
 {
 	pkgs,
-	version ? "4.3-rc2",
-	isStable ? true,
+	version ? "stable",
 	hash ? "",
 }: let
 			name = "godot";
 			stableVersion = "4.3-stable";
 			stableUrl = "https://github.com/godotengine/godot/releases/download/${stableVersion}/Godot_v${stableVersion}_linux.x86_64.zip";
 			unstableUrl = "https://github.com/godotengine/godot-builds/releases/download/${version}/Godot_v${version}_linux.x86_64.zip";
-			
+			isStable = version == "stable";
       godot-stable = pkgs.fetchurl {
         url = if isStable then stableUrl else unstableUrl;
         hash = if builtins.isString hash && hash != "" then hash else "sha256-gZjHvouEBUkaGLEFNyIhin9AA2UCaBWULiKgoTxarCY=";
