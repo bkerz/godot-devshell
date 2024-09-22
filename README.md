@@ -30,6 +30,8 @@ I'm developing games using godot and in the nixos-unstable branch there's only t
 
 # terminal
 nix develop
+
+godot -e path/to/your/project.godot
 ```
 
 Note: I wasn't able to make the `runScript` work. I still don't know why it doesn't work I'll try to find a solution for that later.
