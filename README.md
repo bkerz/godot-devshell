@@ -16,8 +16,8 @@ I'm developing games using godot and in the nixos-unstable branch there's only t
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
-      version = "4.3-rc2";
-      hash = "sha256-rBVP1QFy7f7GHJFf/EsWh9M0uLbHwZXfyclGjjl8fls=";
+      version = "stable"; # "stable" or any other verion (e.g 4.4-dev2)
+      hash = "sha256-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; # replace this hash with the one `nix develop` gives after failing
       shell = godot-shell.lib.devShell {
         inherit pkgs;
         version = version;
@@ -32,4 +32,4 @@ I'm developing games using godot and in the nixos-unstable branch there's only t
 nix develop
 ```
 
-Note: I wasn't able to make the `runScript` work and this devshell will only work for non stable builds for now, but I'll work on support stable builds and make the `runScript` work.
+Note: I wasn't able to make the `runScript` work. I still don't know why it doesn't work I'll try to find a solution for that later.
